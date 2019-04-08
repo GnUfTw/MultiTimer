@@ -7,9 +7,8 @@ namespace MultiTimer
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new ShellViewModel();
-
-            this.WhenActivated(disposableRegistration => { });
+            var shellvm = new ShellViewModel();
+            DataContext = shellvm;
         }
     }
 }
