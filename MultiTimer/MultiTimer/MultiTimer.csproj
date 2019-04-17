@@ -98,6 +98,10 @@
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="AboutViewModel.cs" />
+    <Compile Include="CreateNewTimerDialog.xaml.cs">
+      <DependentUpon>CreateNewTimerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateNewTimerViewModel.cs" />
     <Compile Include="HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -110,8 +114,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MultiTimerItem.cs" />
+    <Compile Include="NotEmptyValidationRule.cs" />
+    <Compile Include="Timer.cs" />
+    <Compile Include="TimerView.xaml.cs">
+      <DependentUpon>TimerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimerViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateNewTimerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
