@@ -16,8 +16,10 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock>Timer Settings:</TextBlock>
-        <TextBox x:Name="Name" materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                 Margin="0 6 0 0" FontSize="18" Grid.Row="1">
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <materialDesign:Clock DisplayAutomation="ToSeconds" x:Name="Clock" />
+            <TextBox x:Name="Name" materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                     Margin="0 6 0 0" FontSize="18" Grid.Row="1">
             <!-- Commented out because Validate() is only getting called on construction -->
             <!--<TextBox.Text>
                 <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
@@ -26,9 +28,9 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>-->
-        </TextBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="2"
-                    Margin="0 16 0 0">
+            </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 16 0 0">
             <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
