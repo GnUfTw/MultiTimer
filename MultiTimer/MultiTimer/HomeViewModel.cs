@@ -29,7 +29,13 @@ namespace MultiTimer
             var dialogView = new CreateNewTimerDialog { ViewModel = new CreateNewTimerViewModel() };
             var result = await DialogHost.Show(dialogView, "RootDialog");
             if (!(bool) (result ?? "NULL")) return;
-            var newTimer = new Timer { Name = dialogView.ViewModel.Name };
+            var newTimer = new Timer
+            {
+                Name = dialogView.ViewModel.Name,
+                Hours = dialogView.ViewModel.Hours,
+                Minutes = dialogView.ViewModel.Minutes,
+                Seconds = dialogView.ViewModel.Seconds
+            };
             var newTimerViewModel = new TimerViewModel(newTimer);
             Debug.WriteLine("Created new timer named " + newTimer.Name);
             Timers.Add(newTimerViewModel);
