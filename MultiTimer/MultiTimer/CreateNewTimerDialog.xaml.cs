@@ -14,7 +14,7 @@ namespace MultiTimer
             {
                 this.Bind(ViewModel,
                         viewModel => viewModel.Name,
-                        view => view.Name)
+                        view => view.Name.Text)
                     .DisposeWith(disposable);
                 this.Bind(ViewModel,
                         viewModel => viewModel.Hours,

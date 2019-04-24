@@ -7,6 +7,9 @@ namespace MultiTimer
         public TimerViewModel(Timer timer)
         {
             Name = timer.Name;
+            Hours = timer.Hours;
+            Minutes = timer.Minutes;
+            Seconds = timer.Seconds;
         }
 
         private string _name;

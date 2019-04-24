@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -37,9 +36,7 @@ namespace MultiTimer
                 Seconds = dialogView.ViewModel.Seconds
             };
             var newTimerViewModel = new TimerViewModel(newTimer);
-            Debug.WriteLine("Created new timer named " + newTimer.Name);
             Timers.Add(newTimerViewModel);
-            Debug.WriteLine("Timer count: " + Timers.Count);
         }
     }
 }
