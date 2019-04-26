@@ -7,9 +7,9 @@ namespace MultiTimer
         public TimerViewModel(Timer timer)
         {
             Name = timer.Name;
-            Hours = timer.Hours;
-            Minutes = timer.Minutes;
-            Seconds = timer.Seconds;
+            var timeString = timer.Hours + ":" + timer.Minutes + ":" + timer.Seconds;
+            FullTime = timeString;
+            CurrentTime = timeString;
         }
 
         private string _name;
@@ -19,25 +19,18 @@ namespace MultiTimer
             set => this.RaiseAndSetIfChanged(ref _name, value);
         }
 
-        private int _hours;
-        public int Hours
+        private string _fullTime;
+        public string FullTime
         {
-            get => _hours;
-            set => this.RaiseAndSetIfChanged(ref _hours, value);
+            get => _fullTime;
+            set => this.RaiseAndSetIfChanged(ref _fullTime, value);
         }
 
-        private int _minutes;
-        public int Minutes
+        private string _currentTime;
+        public string CurrentTime
         {
-            get => _minutes;
-            set => this.RaiseAndSetIfChanged(ref _minutes, value);
-        }
-
-        private int _seconds;
-        public int Seconds
-        {
-            get => _seconds;
-            set => this.RaiseAndSetIfChanged(ref _seconds, value);
+            get => _currentTime;
+            set => this.RaiseAndSetIfChanged(ref _currentTime, value);
         }
     }
 }

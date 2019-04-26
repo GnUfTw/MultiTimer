@@ -15,19 +15,12 @@ namespace MultiTimer
                         view => view.Name.Text)
                     .DisposeWith(disposable);
                 this.OneWayBind(ViewModel,
-                        viewModel => viewModel.Hours,
-                        view => view.Hours.Text,
-                        value => value.ToString())
+                        viewModel => viewModel.FullTime,
+                        view => view.FullTime.Text)
                     .DisposeWith(disposable);
                 this.OneWayBind(ViewModel,
-                        viewModel => viewModel.Minutes,
-                        view => view.Minutes.Text,
-                        value => value.ToString())
-                    .DisposeWith(disposable);
-                this.OneWayBind(ViewModel,
-                        viewModel => viewModel.Seconds,
-                        view => view.Seconds.Text,
-                        value => value.ToString())
+                        viewModel => viewModel.CurrentTime,
+                        view => view.CurrentTime.Text)
                     .DisposeWith(disposable);
             });
         }
