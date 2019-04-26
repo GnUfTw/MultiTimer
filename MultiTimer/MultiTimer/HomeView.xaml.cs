@@ -12,8 +12,12 @@ namespace MultiTimer
             this.WhenActivated(disposable =>
             {
                 this.BindCommand(ViewModel, 
-                    viewModel => viewModel.AddTimer, 
-                    view => view.CreateNewTimerButton)
+                        viewModel => viewModel.AddTimer, 
+                        view => view.CreateNewTimerButton)
+                    .DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                        viewModel => viewModel.Timers,
+                        view => view.Timers.ItemsSource)
                     .DisposeWith(disposable);
             });
         }

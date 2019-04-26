@@ -21,7 +21,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">HomeView Placeholder</TextBlock>
+        <ItemsControl x:Name="Timers" Margin="12 0 12 0" />
         <Button x:Name="CreateNewTimerButton" Grid.Row="1" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" 
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12">
             <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
