@@ -22,6 +22,18 @@ namespace MultiTimer
                         viewModel => viewModel.CurrentTime,
                         view => view.CurrentTime.Text)
                     .DisposeWith(disposable);
+                this.BindCommand(ViewModel,
+                        viewModel => viewModel.StartTimer,
+                        view => view.StartTimer)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel,
+                        viewModel => viewModel.StopTimer,
+                        view => view.StopTimer)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel,
+                        viewModel => viewModel.RestartTimer,
+                        view => view.RestartTimer)
+                    .DisposeWith(disposable);
             });
         }
     }

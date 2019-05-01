@@ -5,20 +5,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MultiTimer"
              xmlns:reactiveUi="http://reactiveui.net"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Border Padding="8" Margin="0 0 200 0" Grid.Column="0">
+        <Border Padding="8" Grid.Column="0">
             <StackPanel Orientation="Vertical">
                 <TextBlock x:Name="Name" FontWeight="Bold" FontSize="32" />
                 <TextBlock x:Name="FullTime" FontWeight="Bold" />
             </StackPanel>
         </Border>
-        <Border Padding="8" Grid.Column="1">
+        <Button x:Name="StartTimer" Grid.Column="1" Content="{materialDesign:PackIcon Play}" ToolTip="Start" Padding="8" Margin="0 0 8 0"/>
+        <Button x:Name="StopTimer" Grid.Column="2" Content="{materialDesign:PackIcon Stop}" ToolTip="Stop" Padding="8" Margin="0 0 8 0"/>
+        <Button x:Name="RestartTimer" Grid.Column="3" Content="{materialDesign:PackIcon Restart}" ToolTip="Reset" Padding="8" Margin="0 0 8 0"/>
+        <Border Padding="8" Grid.Column="4">
             <TextBlock x:Name="CurrentTime" FontWeight="Bold" FontSize="48" VerticalAlignment="Center" />
         </Border>
     </Grid>
