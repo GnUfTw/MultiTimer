@@ -9,37 +9,37 @@ namespace MultiTimer
     {
         private int _currentTotalSeconds;
         private IDisposable _timerSubscription;
-        private Timer _timer;
+        private readonly Timer _timer;
 
         public TimerViewModel(Timer timer)
         {
             _timer = timer;
-            Name = _timer.Name;
-            var timeString = 
-                (_timer.Hours < 10 ? "0" : "") + _timer.Hours + ":" +
-                (_timer.Minutes < 10 ? "0" : "") + _timer.Minutes + ":" + 
-                (_timer.Seconds < 10 ? "0" : "") + _timer.Seconds;
-            FullTime = timeString;
-            CurrentTime = timeString;
             _currentTotalSeconds = _timer.TotalSeconds;
+
+            Name = _timer.Name;
+            FullTime = GetCurrentTimeFormatted();
+            CurrentTime = GetCurrentTimeFormatted();
+
             StartTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
                     {
                         _currentTotalSeconds--;
-                        UpdateCurrentTime();
+                        CurrentTime = GetCurrentTimeFormatted();
                     });
             });
+
             StopTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription.Dispose();
             });
+
             RestartTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription.Dispose();
                 _currentTotalSeconds = _timer.TotalSeconds;
-                UpdateCurrentTime();
+                CurrentTime = GetCurrentTimeFormatted();
             });
         }
 
@@ -70,7 +70,7 @@ namespace MultiTimer
 
         public ReactiveCommand<Unit, Unit> RestartTimer { get; }
 
-        private void UpdateCurrentTime()
+        private string GetCurrentTimeFormatted()
         {
             var currentHours = _currentTotalSeconds / 3600;
             var currentMinutes = (_currentTotalSeconds % 3600) / 60;
@@ -78,9 +78,10 @@ namespace MultiTimer
             var isHourPadNecessary = currentHours < 10;
             var isMinutePadNecessary = currentMinutes < 10;
             var isSecondPadNecessary = currentSeconds < 10;
-            CurrentTime = (isHourPadNecessary ? "0" : "") + currentHours + ":"
-                          + (isMinutePadNecessary ? "0" : "") + currentMinutes + ":"
-                          + (isSecondPadNecessary ? "0" : "") + currentSeconds;
+
+            return (isHourPadNecessary ? "0" : "") + currentHours + ":"
+                    + (isMinutePadNecessary ? "0" : "") + currentMinutes + ":"
+                    + (isSecondPadNecessary ? "0" : "") + currentSeconds;
         }
     }
 }
