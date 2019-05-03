@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Windows.Media;
 using ReactiveUI;
 
 namespace MultiTimer
@@ -10,6 +11,7 @@ namespace MultiTimer
         private int _currentTotalSeconds;
         private IDisposable _timerSubscription;
         private readonly Timer _timer;
+        private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
 
         public TimerViewModel(Timer timer)
         {
@@ -27,6 +29,10 @@ namespace MultiTimer
                     {
                         _currentTotalSeconds--;
                         CurrentTime = GetCurrentTimeFormatted();
+                        if (_currentTotalSeconds != 0) return;
+                        _mediaPlayer.Open(new Uri(@"long-expected.mp3", UriKind.RelativeOrAbsolute));
+                        _mediaPlayer.Play();
+                        _timerSubscription.Dispose();
                     });
             });
 
