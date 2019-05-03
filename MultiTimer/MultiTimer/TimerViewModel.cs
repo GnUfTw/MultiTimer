@@ -47,6 +47,11 @@ namespace MultiTimer
                 _currentTotalSeconds = _timer.TotalSeconds;
                 CurrentTime = GetCurrentTimeFormatted();
             });
+
+            SaveTimer = ReactiveCommand.Create(() =>
+            {
+                Console.WriteLine("Save timer button selected!");
+            });
         }
 
         private string _name;
@@ -75,6 +80,8 @@ namespace MultiTimer
         public ReactiveCommand<Unit, Unit> StopTimer { get; }
 
         public ReactiveCommand<Unit, Unit> RestartTimer { get; }
+
+        public ReactiveCommand<Unit, Unit> SaveTimer { get; }
 
         private string GetCurrentTimeFormatted()
         {

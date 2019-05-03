@@ -34,6 +34,10 @@ namespace MultiTimer
                         viewModel => viewModel.RestartTimer,
                         view => view.RestartTimer)
                     .DisposeWith(disposable);
+                this.BindCommand(ViewModel,
+                        viewModel => viewModel.SaveTimer,
+                        view => view.SaveTimer)
+                    .DisposeWith(disposable);
             });
         }
     }
