@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using ReactiveUI;
 
 namespace MultiTimer
@@ -50,7 +53,29 @@ namespace MultiTimer
 
             SaveTimer = ReactiveCommand.Create(() =>
             {
-                Console.WriteLine("Save timer button selected!");
+                var serializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                List<Timer> timerList;
+                using (var sr = new StreamReader(@"multitimer.config"))
+                using (var reader = new JsonTextReader(sr))
+                {
+                    timerList = serializer.Deserialize<List<Timer>>(reader);
+                }
+
+                using (var sw = new StreamWriter(@"multitimer.config"))
+                using (var writer = new JsonTextWriter(sw))
+                {
+                    if (timerList == null)
+                    {
+                        timerList = new List<Timer>();
+                    }
+
+                    timerList.Add(_timer);
+                    serializer.Serialize(writer, timerList);
+                }
             });
         }
 
