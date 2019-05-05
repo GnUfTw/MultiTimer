@@ -35,6 +35,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="SaveTimer" Grid.Column="0" Content="{materialDesign:PackIcon ContentSave}" ToolTip="Save" Padding="8" Margin="0 0 8 0" Width="Auto"/>
+                    <Button x:Name="DeleteTimer" Grid.Column="1" Content="{materialDesign:PackIcon Delete}" ToolTip="Delete" Padding="8" Margin="0 0 8 0" Width="Auto"/>
                 </Grid>
             </StackPanel>
         </Border>
