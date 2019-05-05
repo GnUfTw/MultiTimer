@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using ReactiveUI;
 
 namespace MultiTimer
@@ -27,9 +30,13 @@ namespace MultiTimer
                 _timerSubscription = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
                     {
+                        // Update time being displayed to user.
                         _currentTotalSeconds--;
                         CurrentTime = GetCurrentTimeFormatted();
+
                         if (_currentTotalSeconds != 0) return;
+                        
+                        // Once the timer elapses to 0, play a single, short audio notification.
                         _mediaPlayer.Open(new Uri(@"long-expected.mp3", UriKind.RelativeOrAbsolute));
                         _mediaPlayer.Play();
                         _timerSubscription.Dispose();
@@ -43,9 +50,66 @@ namespace MultiTimer
 
             RestartTimer = ReactiveCommand.Create(() =>
             {
+                // Set the timer back to it's original time.
                 _timerSubscription.Dispose();
                 _currentTotalSeconds = _timer.TotalSeconds;
                 CurrentTime = GetCurrentTimeFormatted();
+            });
+
+            SaveTimer = ReactiveCommand.Create(() =>
+            {
+                var serializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                // Read in existing list of saved/persisted timers.
+                List<Timer> timerList;
+                using (var sr = new StreamReader(@"multitimer.config"))
+                using (var reader = new JsonTextReader(sr))
+                {
+                    timerList = serializer.Deserialize<List<Timer>>(reader);
+                }
+
+                // Add given timer to existing list of saved/persisted timers.
+                using (var sw = new StreamWriter(@"multitimer.config"))
+                using (var writer = new JsonTextWriter(sw))
+                {
+                    if (timerList == null)
+                    {
+                        timerList = new List<Timer>();
+                    }
+
+                    timerList.Add(_timer);
+                    serializer.Serialize(writer, timerList);
+                }
+            });
+
+            DeleteTimer = ReactiveCommand.Create(() =>
+            {
+                _timerSubscription?.Dispose();
+
+                var serializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                // Read in existing list of saved/persisted timers.
+                List<Timer> timerList;
+                using (var sr = new StreamReader(@"multitimer.config"))
+                using (var reader = new JsonTextReader(sr))
+                {
+                    timerList = serializer.Deserialize<List<Timer>>(reader);
+                }
+
+                // Remove given timer from list of saved/persisted timers.
+                using (var sw = new StreamWriter(@"multitimer.config"))
+                using (var writer = new JsonTextWriter(sw))
+                {
+                    if (timerList == null) return;
+                    if (!timerList.Remove(_timer)) return;
+                    serializer.Serialize(writer, timerList);
+                }
             });
         }
 
@@ -75,6 +139,10 @@ namespace MultiTimer
         public ReactiveCommand<Unit, Unit> StopTimer { get; }
 
         public ReactiveCommand<Unit, Unit> RestartTimer { get; }
+
+        public ReactiveCommand<Unit, Unit> SaveTimer { get; }
+
+        public ReactiveCommand<Unit, Unit> DeleteTimer { get; }
 
         private string GetCurrentTimeFormatted()
         {
