@@ -33,6 +33,7 @@ namespace MultiTimer
                         // Create view model for each timer from config file & add it to view.
                         foreach (var timer in timers)
                         {
+                            timer.IsPersisted = true;
                             var timerViewModel = new TimerViewModel(timer);
                             timerViewModel.DeleteTimer.Subscribe(unit => { Timers.Remove(timerViewModel); });
                             Timers.Add(timerViewModel);

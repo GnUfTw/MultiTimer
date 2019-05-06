@@ -5,6 +5,7 @@ namespace MultiTimer
     public class Timer : IEquatable<Timer>
     {
         public string Name { get; set; }
+        public bool IsPersisted { get; set; } = false;
 
         private int _hours;
         public int Hours
