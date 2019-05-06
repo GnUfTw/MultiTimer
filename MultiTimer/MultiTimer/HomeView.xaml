@@ -21,7 +21,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ItemsControl x:Name="Timers" Margin="12 0 12 0" />
+        <ScrollViewer Grid.Row="0"
+            HorizontalScrollBarVisibility="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.HorizontalScrollBarVisibilityRequirement}"
+            VerticalScrollBarVisibility="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.VerticalScrollBarVisibilityRequirement}" 
+            Padding="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.MarginRequirement}">
+            <ItemsControl x:Name="Timers" Margin="12 0 12 0" />
+        </ScrollViewer>
         <Button x:Name="CreateNewTimerButton" Grid.Row="1" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" 
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12">
             <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
