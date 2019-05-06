@@ -42,6 +42,10 @@ namespace MultiTimer
                         viewModel => viewModel.DeleteTimer,
                         view => view.DeleteTimer)
                     .DisposeWith(disposable);
+                this.BindCommand(ViewModel,
+                        viewModel => viewModel.EditTimer,
+                        view => view.EditTimer)
+                    .DisposeWith(disposable);
             });
         }
     }

@@ -2,8 +2,18 @@
 
 namespace MultiTimer
 {
-    public class CreateNewTimerViewModel : ReactiveObject
+    public class TimerSettingsViewModel : ReactiveObject
     {
+        public TimerSettingsViewModel() { }
+
+        public TimerSettingsViewModel(Timer timer)
+        {
+            Name = timer.Name;
+            Hours = timer.Hours;
+            Minutes = timer.Minutes;
+            Seconds = timer.Seconds;
+        }
+
         private string _name;
         public string Name
         {

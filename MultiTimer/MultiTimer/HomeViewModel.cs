@@ -33,6 +33,7 @@ namespace MultiTimer
                         // Create view model for each timer from config file & add it to view.
                         foreach (var timer in timers)
                         {
+                            timer.IsPersisted = true;
                             var timerViewModel = new TimerViewModel(timer);
                             timerViewModel.DeleteTimer.Subscribe(unit => { Timers.Remove(timerViewModel); });
                             Timers.Add(timerViewModel);
@@ -55,7 +56,7 @@ namespace MultiTimer
         private async Task CreateNewTimer()
         {
             // Present user with dialog where they can define timer settings.
-            var dialogView = new CreateNewTimerDialog { ViewModel = new CreateNewTimerViewModel() };
+            var dialogView = new CreateNewTimerDialog { ViewModel = new TimerSettingsViewModel() };
             var result = await DialogHost.Show(dialogView, "RootDialog");
 
             // Create the timer from defined settings if the user didn't cancel the dialog.

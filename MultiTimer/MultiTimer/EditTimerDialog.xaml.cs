@@ -3,9 +3,12 @@ using ReactiveUI;
 
 namespace MultiTimer
 {
-    public partial class CreateNewTimerDialog : ReactiveUserControl<TimerSettingsViewModel>
+    /// <summary>
+    /// Interaction logic for EditTimerDialog.xaml
+    /// </summary>
+    public partial class EditTimerDialog : ReactiveUserControl<TimerSettingsViewModel>
     {
-        public CreateNewTimerDialog()
+        public EditTimerDialog()
         {
             InitializeComponent();
             DataContext = ViewModel;

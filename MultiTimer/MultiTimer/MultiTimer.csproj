@@ -105,6 +105,9 @@
       <DependentUpon>CreateNewTimerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreateNewTimerViewModel.cs" />
+    <Compile Include="EditTimerDialog.xaml.cs">
+      <DependentUpon>EditTimerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateNewTimerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditTimerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

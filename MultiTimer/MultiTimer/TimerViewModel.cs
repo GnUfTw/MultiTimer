@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media;
+using DynamicData;
+using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using ReactiveUI;
 
@@ -13,8 +16,9 @@ namespace MultiTimer
     {
         private int _currentTotalSeconds;
         private IDisposable _timerSubscription;
-        private readonly Timer _timer;
+        private Timer _timer;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
+        private bool _isRunning = false;
 
         public TimerViewModel(Timer timer)
         {
@@ -22,17 +26,18 @@ namespace MultiTimer
             _currentTotalSeconds = _timer.TotalSeconds;
 
             Name = _timer.Name;
-            FullTime = GetCurrentTimeFormatted();
-            CurrentTime = GetCurrentTimeFormatted();
+            FullTime = FormatTime(_currentTotalSeconds);
+            CurrentTime = FormatTime(_currentTotalSeconds);
 
             StartTimer = ReactiveCommand.Create(() =>
             {
+                _isRunning = true;
                 _timerSubscription = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
                     {
                         // Update time being displayed to user.
                         _currentTotalSeconds--;
-                        CurrentTime = GetCurrentTimeFormatted();
+                        CurrentTime = FormatTime(_currentTotalSeconds);
 
                         if (_currentTotalSeconds != 0) return;
                         
@@ -46,14 +51,16 @@ namespace MultiTimer
             StopTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription.Dispose();
+                _isRunning = false;
             });
 
             RestartTimer = ReactiveCommand.Create(() =>
             {
                 // Set the timer back to it's original time.
                 _timerSubscription.Dispose();
+                _isRunning = false;
                 _currentTotalSeconds = _timer.TotalSeconds;
-                CurrentTime = GetCurrentTimeFormatted();
+                CurrentTime = FormatTime(_currentTotalSeconds);
             });
 
             SaveTimer = ReactiveCommand.Create(() =>
@@ -82,6 +89,7 @@ namespace MultiTimer
 
                     timerList.Add(_timer);
                     serializer.Serialize(writer, timerList);
+                    _timer.IsPersisted = true;
                 }
             });
 
@@ -111,6 +119,8 @@ namespace MultiTimer
                     serializer.Serialize(writer, timerList);
                 }
             });
+
+            EditTimer = ReactiveCommand.CreateFromTask(EditTimerSettings);
         }
 
         private string _name;
@@ -144,11 +154,13 @@ namespace MultiTimer
 
         public ReactiveCommand<Unit, Unit> DeleteTimer { get; }
 
-        private string GetCurrentTimeFormatted()
+        public ReactiveCommand<Unit, Unit> EditTimer { get; }
+
+        private string FormatTime(int seconds)
         {
-            var currentHours = _currentTotalSeconds / 3600;
-            var currentMinutes = (_currentTotalSeconds % 3600) / 60;
-            var currentSeconds = (_currentTotalSeconds % 3600) % 60;
+            var currentHours = seconds / 3600;
+            var currentMinutes = (seconds % 3600) / 60;
+            var currentSeconds = (seconds % 3600) % 60;
             var isHourPadNecessary = currentHours < 10;
             var isMinutePadNecessary = currentMinutes < 10;
             var isSecondPadNecessary = currentSeconds < 10;
@@ -156,6 +168,58 @@ namespace MultiTimer
             return (isHourPadNecessary ? "0" : "") + currentHours + ":"
                     + (isMinutePadNecessary ? "0" : "") + currentMinutes + ":"
                     + (isSecondPadNecessary ? "0" : "") + currentSeconds;
+        }
+
+        private async Task EditTimerSettings()
+        {
+            // Present user with dialog where they can define timer settings.
+            var dialogView = new EditTimerDialog { ViewModel = new CreateNewTimerViewModel(_timer) };
+            var result = await DialogHost.Show(dialogView, "RootDialog");
+
+            // Create the timer from defined settings if the user didn't cancel the dialog.
+            if (!(bool)(result ?? "NULL")) return;
+            var originalTimer = _timer;
+            _timer = new Timer
+            {
+                Name = dialogView.ViewModel.Name,
+                Hours = dialogView.ViewModel.Hours,
+                Minutes = dialogView.ViewModel.Minutes,
+                Seconds = dialogView.ViewModel.Seconds
+            };
+
+            // Update timer view unconditionally.
+            Name = _timer.Name;
+            FullTime = FormatTime(_timer.TotalSeconds);
+
+            // Update current time if timer is not running.
+            if (!_isRunning)
+            {
+                CurrentTime = FullTime;
+            }
+
+            // Update serialized timer if persisted.
+            if (!originalTimer.IsPersisted) return;
+            var serializer = new JsonSerializer
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            // Read in existing list of saved/persisted timers.
+            List<Timer> timerList;
+            using (var sr = new StreamReader(@"multitimer.config"))
+            using (var reader = new JsonTextReader(sr))
+            {
+                timerList = serializer.Deserialize<List<Timer>>(reader);
+            }
+
+            // Replace given timer in list of saved/persisted timers.
+            using (var sw = new StreamWriter(@"multitimer.config"))
+            using (var writer = new JsonTextWriter(sw))
+            {
+                if (timerList == null) return;
+                timerList.Replace(originalTimer, _timer);
+                serializer.Serialize(writer, timerList);
+            }
         }
     }
 }
