@@ -2,9 +2,9 @@
 
 namespace MultiTimer
 {
-    public partial class MainWindow : ReactiveWindow<ShellViewModel>
+    public partial class ShellView : ReactiveWindow<ShellViewModel>
     {
-        public MainWindow()
+        public ShellView()
         {
             InitializeComponent();
             var shellvm = new ShellViewModel();
