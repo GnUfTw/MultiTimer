@@ -6,7 +6,7 @@ namespace MultiTimer
     /// <summary>
     /// Interaction logic for EditTimerDialog.xaml
     /// </summary>
-    public partial class EditTimerDialog : ReactiveUserControl<CreateNewTimerViewModel>
+    public partial class EditTimerDialog : ReactiveUserControl<TimerSettingsViewModel>
     {
         public EditTimerDialog()
         {

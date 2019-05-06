@@ -56,7 +56,7 @@ namespace MultiTimer
         private async Task CreateNewTimer()
         {
             // Present user with dialog where they can define timer settings.
-            var dialogView = new CreateNewTimerDialog { ViewModel = new CreateNewTimerViewModel() };
+            var dialogView = new CreateNewTimerDialog { ViewModel = new TimerSettingsViewModel() };
             var result = await DialogHost.Show(dialogView, "RootDialog");
 
             // Create the timer from defined settings if the user didn't cancel the dialog.

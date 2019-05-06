@@ -3,7 +3,7 @@ using ReactiveUI;
 
 namespace MultiTimer
 {
-    public partial class CreateNewTimerDialog : ReactiveUserControl<CreateNewTimerViewModel>
+    public partial class CreateNewTimerDialog : ReactiveUserControl<TimerSettingsViewModel>
     {
         public CreateNewTimerDialog()
         {
