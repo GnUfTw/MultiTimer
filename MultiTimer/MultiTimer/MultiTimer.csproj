@@ -104,7 +104,6 @@
     <Compile Include="CreateNewTimerDialog.xaml.cs">
       <DependentUpon>CreateNewTimerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateNewTimerViewModel.cs" />
     <Compile Include="EditTimerDialog.xaml.cs">
       <DependentUpon>EditTimerDialog.xaml</DependentUpon>
     </Compile>
@@ -122,6 +121,7 @@
     <Compile Include="MultiTimerItem.cs" />
     <Compile Include="NotEmptyValidationRule.cs" />
     <Compile Include="Timer.cs" />
+    <Compile Include="TimerSettingsViewModel.cs" />
     <Compile Include="TimerView.xaml.cs">
       <DependentUpon>TimerView.xaml</DependentUpon>
     </Compile>

@@ -173,7 +173,7 @@ namespace MultiTimer
         private async Task EditTimerSettings()
         {
             // Present user with dialog where they can define timer settings.
-            var dialogView = new EditTimerDialog { ViewModel = new CreateNewTimerViewModel(_timer) };
+            var dialogView = new EditTimerDialog { ViewModel = new TimerSettingsViewModel(_timer) };
             var result = await DialogHost.Show(dialogView, "RootDialog");
 
             // Create the timer from defined settings if the user didn't cancel the dialog.
