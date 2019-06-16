@@ -52,6 +52,9 @@ namespace MultiTimer
                         _currentTotalSeconds--;
                         CurrentTime = FormatTime(_currentTotalSeconds);
 
+                        // Update progress bar.
+                        TimerProgress = (_timer.TotalSeconds - _currentTotalSeconds) * 100 / _timer.TotalSeconds;
+
                         if (_currentTotalSeconds != 0) return;
                         
                         // Once the timer elapses to 0, play a single, short audio notification.
@@ -193,6 +196,13 @@ namespace MultiTimer
         {
             get => _isNotPersisted;
             set => this.RaiseAndSetIfChanged(ref _isNotPersisted, value);
+        }
+
+        private int _timerProgress;
+        public int TimerProgress
+        {
+            get => _timerProgress;
+            set => this.RaiseAndSetIfChanged(ref _timerProgress, value);
         }
 
         public ReactiveCommand<Unit, Unit> StartTimer { get; }
