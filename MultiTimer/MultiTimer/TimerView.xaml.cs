@@ -58,6 +58,10 @@ namespace MultiTimer
                         viewModel => viewModel.EditTimer,
                         view => view.EditTimer)
                     .DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                        viewModel => viewModel.IsNotRunning,
+                        view => view.EditTimer.IsEnabled)
+                    .DisposeWith(disposable);
             });
         }
     }
