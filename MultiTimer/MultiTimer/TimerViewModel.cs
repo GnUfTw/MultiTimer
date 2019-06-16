@@ -18,7 +18,6 @@ namespace MultiTimer
         private IDisposable _timerSubscription;
         private Timer _timer;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private bool _isRunning = false;
 
         public TimerViewModel(Timer timer)
         {
@@ -31,7 +30,7 @@ namespace MultiTimer
 
             StartTimer = ReactiveCommand.Create(() =>
             {
-                _isRunning = true;
+                IsRunning = true;
                 _timerSubscription = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
                     {
@@ -51,14 +50,14 @@ namespace MultiTimer
             StopTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription.Dispose();
-                _isRunning = false;
+                IsRunning = false;
             });
 
             RestartTimer = ReactiveCommand.Create(() =>
             {
                 // Set the timer back to it's original time.
                 _timerSubscription.Dispose();
-                _isRunning = false;
+                IsRunning = false;
                 _currentTotalSeconds = _timer.TotalSeconds;
                 CurrentTime = FormatTime(_currentTotalSeconds);
             });
@@ -142,6 +141,24 @@ namespace MultiTimer
         {
             get => _currentTime;
             set => this.RaiseAndSetIfChanged(ref _currentTime, value);
+        }
+
+        private bool _isRunning;
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isRunning, value);
+                IsNotRunning = !value;
+            }
+        }
+
+        private bool _isNotRunning = true;
+        public bool IsNotRunning
+        {
+            get => _isNotRunning;
+            set => this.RaiseAndSetIfChanged(ref _isNotRunning, value);
         }
 
         public ReactiveCommand<Unit, Unit> StartTimer { get; }

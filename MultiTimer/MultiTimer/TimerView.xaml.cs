@@ -26,13 +26,25 @@ namespace MultiTimer
                         viewModel => viewModel.StartTimer,
                         view => view.StartTimer)
                     .DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                        viewModel => viewModel.IsNotRunning,
+                        view => view.StartTimer.IsEnabled)
+                    .DisposeWith(disposable);
                 this.BindCommand(ViewModel,
                         viewModel => viewModel.StopTimer,
                         view => view.StopTimer)
                     .DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                        viewModel => viewModel.IsRunning,
+                        view => view.StopTimer.IsEnabled)
+                    .DisposeWith(disposable);
                 this.BindCommand(ViewModel,
                         viewModel => viewModel.RestartTimer,
                         view => view.RestartTimer)
+                    .DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                        viewModel => viewModel.IsRunning,
+                        view => view.RestartTimer.IsEnabled)
                     .DisposeWith(disposable);
                 this.BindCommand(ViewModel,
                         viewModel => viewModel.SaveTimer,
