@@ -28,6 +28,20 @@ namespace MultiTimer
             FullTime = FormatTime(_currentTotalSeconds);
             CurrentTime = FormatTime(_currentTotalSeconds);
 
+            // Read in existing list of saved/persisted timers.
+            
+            using (var sr = new StreamReader(@"multitimer.config"))
+            using (var reader = new JsonTextReader(sr))
+            {
+                var serializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                var timerList = serializer.Deserialize<List<Timer>>(reader);
+                IsPersisted = timerList.Contains(_timer);
+            }
+
             StartTimer = ReactiveCommand.Create(() =>
             {
                 IsRunning = true;
@@ -88,7 +102,7 @@ namespace MultiTimer
 
                     timerList.Add(_timer);
                     serializer.Serialize(writer, timerList);
-                    _timer.IsPersisted = true;
+                    IsPersisted = true;
                 }
             });
 
@@ -116,6 +130,7 @@ namespace MultiTimer
                     if (timerList == null) return;
                     if (!timerList.Remove(_timer)) return;
                     serializer.Serialize(writer, timerList);
+                    IsPersisted = false;
                 }
             });
 
@@ -159,6 +174,25 @@ namespace MultiTimer
         {
             get => _isNotRunning;
             set => this.RaiseAndSetIfChanged(ref _isNotRunning, value);
+        }
+
+        private bool _isPersisted;
+        public bool IsPersisted
+        {
+            get => _isPersisted;
+            set
+            {
+                _timer.IsPersisted = value;
+                this.RaiseAndSetIfChanged(ref _isPersisted, value);
+                IsNotPersisted = !value;
+            }
+        }
+
+        private bool _isNotPersisted;
+        public bool IsNotPersisted
+        {
+            get => _isNotPersisted;
+            set => this.RaiseAndSetIfChanged(ref _isNotPersisted, value);
         }
 
         public ReactiveCommand<Unit, Unit> StartTimer { get; }
