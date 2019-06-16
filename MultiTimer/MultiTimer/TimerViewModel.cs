@@ -18,7 +18,6 @@ namespace MultiTimer
         private IDisposable _timerSubscription;
         private Timer _timer;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private bool _isRunning = false;
 
         public TimerViewModel(Timer timer)
         {
@@ -29,9 +28,23 @@ namespace MultiTimer
             FullTime = FormatTime(_currentTotalSeconds);
             CurrentTime = FormatTime(_currentTotalSeconds);
 
+            // Read in existing list of saved/persisted timers.
+            
+            using (var sr = new StreamReader(@"multitimer.config"))
+            using (var reader = new JsonTextReader(sr))
+            {
+                var serializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                var timerList = serializer.Deserialize<List<Timer>>(reader);
+                IsPersisted = timerList.Contains(_timer);
+            }
+
             StartTimer = ReactiveCommand.Create(() =>
             {
-                _isRunning = true;
+                IsRunning = true;
                 _timerSubscription = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
                     {
@@ -51,14 +64,14 @@ namespace MultiTimer
             StopTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription.Dispose();
-                _isRunning = false;
+                IsRunning = false;
             });
 
             RestartTimer = ReactiveCommand.Create(() =>
             {
                 // Set the timer back to it's original time.
                 _timerSubscription.Dispose();
-                _isRunning = false;
+                IsRunning = false;
                 _currentTotalSeconds = _timer.TotalSeconds;
                 CurrentTime = FormatTime(_currentTotalSeconds);
             });
@@ -89,7 +102,7 @@ namespace MultiTimer
 
                     timerList.Add(_timer);
                     serializer.Serialize(writer, timerList);
-                    _timer.IsPersisted = true;
+                    IsPersisted = true;
                 }
             });
 
@@ -117,6 +130,7 @@ namespace MultiTimer
                     if (timerList == null) return;
                     if (!timerList.Remove(_timer)) return;
                     serializer.Serialize(writer, timerList);
+                    IsPersisted = false;
                 }
             });
 
@@ -142,6 +156,43 @@ namespace MultiTimer
         {
             get => _currentTime;
             set => this.RaiseAndSetIfChanged(ref _currentTime, value);
+        }
+
+        private bool _isRunning;
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isRunning, value);
+                IsNotRunning = !value;
+            }
+        }
+
+        private bool _isNotRunning = true;
+        public bool IsNotRunning
+        {
+            get => _isNotRunning;
+            set => this.RaiseAndSetIfChanged(ref _isNotRunning, value);
+        }
+
+        private bool _isPersisted;
+        public bool IsPersisted
+        {
+            get => _isPersisted;
+            set
+            {
+                _timer.IsPersisted = value;
+                this.RaiseAndSetIfChanged(ref _isPersisted, value);
+                IsNotPersisted = !value;
+            }
+        }
+
+        private bool _isNotPersisted;
+        public bool IsNotPersisted
+        {
+            get => _isNotPersisted;
+            set => this.RaiseAndSetIfChanged(ref _isNotPersisted, value);
         }
 
         public ReactiveCommand<Unit, Unit> StartTimer { get; }
