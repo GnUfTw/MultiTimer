@@ -42,9 +42,17 @@ namespace MultiTimer
 
         public int TotalSeconds { get; private set; }
 
+        public int TotalMilliseconds { get; private set; }
+
         private void UpdateTotalSeconds()
         {
             TotalSeconds = Hours * 60 * 60 + Minutes * 60 + Seconds;
+            UpdateTotalMilliseconds();
+        }
+
+        private void UpdateTotalMilliseconds()
+        {
+            TotalMilliseconds = TotalSeconds * 1000;
         }
 
         public bool Equals(Timer other)
