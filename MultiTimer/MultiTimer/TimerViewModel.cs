@@ -88,6 +88,7 @@ namespace MultiTimer
             {
                 // Set the timer back to it's original time.
                 _timerSubscription.Dispose();
+                _progressUpdateSubscription.Dispose();
                 IsRunning = false;
                 IsStopEnabled = false;
                 _currentTotalSeconds = _timer.TotalSeconds;
