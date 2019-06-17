@@ -70,6 +70,10 @@ namespace MultiTimer
                         viewModel => viewModel.IsNotRunning,
                         view => view.EditTimer.IsEnabled)
                     .DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                        viewModel => viewModel.TimerProgress,
+                        view => view.TimerProgress.Value)
+                    .DisposeWith(disposable);
             });
         }
     }

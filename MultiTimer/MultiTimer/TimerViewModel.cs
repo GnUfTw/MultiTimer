@@ -15,21 +15,23 @@ namespace MultiTimer
     public class TimerViewModel : ReactiveObject
     {
         private int _currentTotalSeconds;
+        private int _currentTotalMilliseconds;
         private IDisposable _timerSubscription;
         private Timer _timer;
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
+        private IDisposable _progressUpdateSubscription;
 
         public TimerViewModel(Timer timer)
         {
             _timer = timer;
             _currentTotalSeconds = _timer.TotalSeconds;
+            _currentTotalMilliseconds = _timer.TotalMilliseconds;
 
             Name = _timer.Name;
             FullTime = FormatTime(_currentTotalSeconds);
             CurrentTime = FormatTime(_currentTotalSeconds);
 
             // Read in existing list of saved/persisted timers.
-            
             using (var sr = new StreamReader(@"multitimer.config"))
             using (var reader = new JsonTextReader(sr))
             {
@@ -45,25 +47,37 @@ namespace MultiTimer
             StartTimer = ReactiveCommand.Create(() =>
             {
                 IsRunning = true;
-                _timerSubscription = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                _progressUpdateSubscription = Observable
+                    .Interval(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
+                    .Subscribe(_ =>
+                    {
+                        _currentTotalMilliseconds -= 500;
+                        SetTimerProgress();
+                        if (_currentTotalMilliseconds > 0) return;
+                        _progressUpdateSubscription.Dispose();
+                    });
+                _timerSubscription = Observable
+                    .Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
                     {
                         // Update time being displayed to user.
                         _currentTotalSeconds--;
                         CurrentTime = FormatTime(_currentTotalSeconds);
 
-                        if (_currentTotalSeconds != 0) return;
-                        
+                        if (_currentTotalSeconds > 0) return;
+
                         // Once the timer elapses to 0, play a single, short audio notification.
                         _mediaPlayer.Open(new Uri(@"long-expected.mp3", UriKind.RelativeOrAbsolute));
                         _mediaPlayer.Play();
                         _timerSubscription.Dispose();
                     });
+
             });
 
             StopTimer = ReactiveCommand.Create(() =>
             {
                 _timerSubscription.Dispose();
+                _progressUpdateSubscription.Dispose();
                 IsRunning = false;
             });
 
@@ -73,6 +87,8 @@ namespace MultiTimer
                 _timerSubscription.Dispose();
                 IsRunning = false;
                 _currentTotalSeconds = _timer.TotalSeconds;
+                _currentTotalMilliseconds = _timer.TotalMilliseconds;
+                SetTimerProgress();
                 CurrentTime = FormatTime(_currentTotalSeconds);
             });
 
@@ -193,6 +209,18 @@ namespace MultiTimer
         {
             get => _isNotPersisted;
             set => this.RaiseAndSetIfChanged(ref _isNotPersisted, value);
+        }
+
+        private int _timerProgress;
+        public int TimerProgress
+        {
+            get => _timerProgress;
+            set => this.RaiseAndSetIfChanged(ref _timerProgress, value);
+        }
+
+        private void SetTimerProgress()
+        {
+            TimerProgress = (_timer.TotalMilliseconds - _currentTotalMilliseconds) * 100 / _timer.TotalMilliseconds;
         }
 
         public ReactiveCommand<Unit, Unit> StartTimer { get; }
