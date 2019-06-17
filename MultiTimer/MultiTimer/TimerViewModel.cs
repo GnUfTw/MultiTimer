@@ -47,6 +47,7 @@ namespace MultiTimer
             StartTimer = ReactiveCommand.Create(() =>
             {
                 IsRunning = true;
+                IsStopEnabled = true;
                 _progressUpdateSubscription = Observable
                     .Interval(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
                     .Subscribe(_ =>
@@ -69,6 +70,7 @@ namespace MultiTimer
                         // Once the timer elapses to 0, play a single, short audio notification.
                         _mediaPlayer.Open(new Uri(@"long-expected.mp3", UriKind.RelativeOrAbsolute));
                         _mediaPlayer.Play();
+                        IsStopEnabled = false;
                         _timerSubscription.Dispose();
                     });
 
@@ -79,6 +81,7 @@ namespace MultiTimer
                 _timerSubscription.Dispose();
                 _progressUpdateSubscription.Dispose();
                 IsRunning = false;
+                IsStopEnabled = false;
             });
 
             RestartTimer = ReactiveCommand.Create(() =>
@@ -86,6 +89,7 @@ namespace MultiTimer
                 // Set the timer back to it's original time.
                 _timerSubscription.Dispose();
                 IsRunning = false;
+                IsStopEnabled = false;
                 _currentTotalSeconds = _timer.TotalSeconds;
                 _currentTotalMilliseconds = _timer.TotalMilliseconds;
                 SetTimerProgress();
@@ -226,6 +230,13 @@ namespace MultiTimer
         public ReactiveCommand<Unit, Unit> StartTimer { get; }
 
         public ReactiveCommand<Unit, Unit> StopTimer { get; }
+
+        private bool _isStopEnabled;
+        public bool IsStopEnabled
+        {
+            get => _isStopEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isStopEnabled, value);
+        }
 
         public ReactiveCommand<Unit, Unit> RestartTimer { get; }
 
