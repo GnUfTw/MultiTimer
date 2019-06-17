@@ -35,7 +35,7 @@ namespace MultiTimer
                         view => view.StopTimer)
                     .DisposeWith(disposable);
                 this.OneWayBind(ViewModel,
-                        viewModel => viewModel.IsRunning,
+                        viewModel => viewModel.IsStopEnabled,
                         view => view.StopTimer.IsEnabled)
                     .DisposeWith(disposable);
                 this.BindCommand(ViewModel,
