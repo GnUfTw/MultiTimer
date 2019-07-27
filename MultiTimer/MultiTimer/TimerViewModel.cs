@@ -41,7 +41,7 @@ namespace MultiTimer
                 };
 
                 var timerList = serializer.Deserialize<List<Timer>>(reader);
-                IsPersisted = timerList.Contains(_timer);
+                IsPersisted = timerList != null && timerList.Contains(_timer);
             }
 
             StartTimer = ReactiveCommand.Create(() =>
