@@ -58,10 +58,6 @@ namespace MultiTimer
                         viewModel => viewModel.DeleteTimer,
                         view => view.DeleteTimer)
                     .DisposeWith(disposable);
-                this.OneWayBind(ViewModel,
-                        viewModel => viewModel.IsPersisted,
-                        view => view.DeleteTimer.IsEnabled)
-                    .DisposeWith(disposable);
                 this.BindCommand(ViewModel,
                         viewModel => viewModel.EditTimer,
                         view => view.EditTimer)
