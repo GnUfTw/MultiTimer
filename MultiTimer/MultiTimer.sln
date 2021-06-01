@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiTimer", "MultiTimer\MultiTimer.csproj", "{CD9AE680-0F18-4081-BD10-892A41298F4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiTimer.View", "MultiTimer.View\MultiTimer.View.csproj", "{4F9B07C8-EAA9-417B-8654-992C19F713F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiTimer.Demo", "MultiTimer.Demo\MultiTimer.Demo.csproj", "{F15B947D-E350-45BD-A01D-3866FDFC31BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{C265097A-7C0B-4F9F-8F5C-35F1A4A3E7A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiTimer.ViewModel", "MultiTimer.ViewModel\MultiTimer.ViewModel.csproj", "{25A0D056-A5BE-49CF-AC05-658179515BA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +23,24 @@ Global
 		{CD9AE680-0F18-4081-BD10-892A41298F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD9AE680-0F18-4081-BD10-892A41298F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD9AE680-0F18-4081-BD10-892A41298F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9B07C8-EAA9-417B-8654-992C19F713F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9B07C8-EAA9-417B-8654-992C19F713F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9B07C8-EAA9-417B-8654-992C19F713F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9B07C8-EAA9-417B-8654-992C19F713F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15B947D-E350-45BD-A01D-3866FDFC31BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15B947D-E350-45BD-A01D-3866FDFC31BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15B947D-E350-45BD-A01D-3866FDFC31BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15B947D-E350-45BD-A01D-3866FDFC31BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25A0D056-A5BE-49CF-AC05-658179515BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25A0D056-A5BE-49CF-AC05-658179515BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25A0D056-A5BE-49CF-AC05-658179515BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25A0D056-A5BE-49CF-AC05-658179515BA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F15B947D-E350-45BD-A01D-3866FDFC31BD} = {C265097A-7C0B-4F9F-8F5C-35F1A4A3E7A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF40A014-0EB0-4318-A8C9-0A6B6DE59C11}

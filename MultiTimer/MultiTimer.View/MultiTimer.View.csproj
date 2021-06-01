@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.1.1-ci2558" />
+    <PackageReference Include="ReactiveUI.WPF" Version="13.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MultiTimer.ViewModel\MultiTimer.ViewModel.csproj" />
+  </ItemGroup>
+	
+
+  <ItemGroup>
+    <Page Update="About.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CreateNewTimerDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EditTimerDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="HomeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TimerView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>
