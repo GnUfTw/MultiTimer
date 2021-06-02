@@ -12,7 +12,7 @@ using DynamicData;
 using Newtonsoft.Json;
 using ReactiveUI;
 
-namespace MultiTimer
+namespace MultiTimer.ViewModel
 {
     public class TimerViewModel : ReactiveObject, IObservable<Timer>, IObserver<TimerDialogOutput> 
     {

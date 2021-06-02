@@ -12,7 +12,7 @@ using DynamicData.Binding;
 using Newtonsoft.Json;
 using ReactiveUI;
 
-namespace MultiTimer {
+namespace MultiTimer.ViewModel {
    public record TimerDialogOutput(string Name, int Hours, int Minutes, int Seconds);
 
 

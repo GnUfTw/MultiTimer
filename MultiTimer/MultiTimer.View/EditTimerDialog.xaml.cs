@@ -1,7 +1,8 @@
 ﻿using System.Reactive.Disposables;
+using MultiTimer.ViewModel;
 using ReactiveUI;
 
-namespace MultiTimer
+namespace MultiTimer.View
 {
     /// <summary>
     /// Interaction logic for EditTimerDialog.xaml

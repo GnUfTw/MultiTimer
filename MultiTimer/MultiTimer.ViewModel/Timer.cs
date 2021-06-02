@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MultiTimer
+namespace MultiTimer.ViewModel
 {
     public class Timer : IEquatable<Timer>
     {

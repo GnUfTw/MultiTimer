@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using ReactiveUI;
 
 
-namespace MultiTimer {
+namespace MultiTimer.ViewModel {
    public class MultiTimerItem : ReactiveObject {
       private string _name;
       private object _content;

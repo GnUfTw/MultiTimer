@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace MultiTimer
+namespace MultiTimer.ViewModel
 {
     public class AboutViewModel : ReactiveObject
     {

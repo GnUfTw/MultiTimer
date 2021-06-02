@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using MaterialDesignThemes.Wpf;
+using MultiTimer.ViewModel;
 using ReactiveUI;
 
 
-namespace MultiTimer
+namespace MultiTimer.View
 {
     public partial class TimerView : ReactiveUserControl<TimerViewModel>
     {

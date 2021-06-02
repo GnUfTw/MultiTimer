@@ -1,4 +1,6 @@
-﻿using ReactiveUI;
+﻿using MultiTimer.View;
+using MultiTimer.ViewModel;
+using ReactiveUI;
 
 namespace MultiTimer
 {

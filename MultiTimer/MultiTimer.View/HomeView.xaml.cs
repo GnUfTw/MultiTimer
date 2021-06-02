@@ -2,9 +2,10 @@
 using System.Reactive.Disposables;
 using System.Windows.Forms;
 using MaterialDesignThemes.Wpf;
+using MultiTimer.ViewModel;
 using ReactiveUI;
 
-namespace MultiTimer
+namespace MultiTimer.View
 {
     public partial class HomeView : ReactiveUserControl<HomeViewModel>
     {

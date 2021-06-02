@@ -1,7 +1,8 @@
 ﻿using System.Reactive.Disposables;
+using MultiTimer.ViewModel;
 using ReactiveUI;
 
-namespace MultiTimer
+namespace MultiTimer.View
 {
     public partial class CreateNewTimerDialog : ReactiveUserControl<TimerSettingsViewModel>
     {

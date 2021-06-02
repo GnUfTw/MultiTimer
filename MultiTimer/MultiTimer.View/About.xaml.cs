@@ -1,6 +1,7 @@
-﻿using ReactiveUI;
+﻿using MultiTimer.ViewModel;
+using ReactiveUI;
 
-namespace MultiTimer
+namespace MultiTimer.View
 {
     /// <summary>
     /// Interaction logic for About.xaml

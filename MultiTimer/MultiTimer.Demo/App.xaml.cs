@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Windows;
+using MultiTimer.View;
+using MultiTimer.ViewModel;
 using ReactiveUI;
 using Splat;
 

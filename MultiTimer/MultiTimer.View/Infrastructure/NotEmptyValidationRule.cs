@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace MultiTimer
+namespace MultiTimer.View
 {
     public class NotEmptyValidationRule : ValidationRule
     {
